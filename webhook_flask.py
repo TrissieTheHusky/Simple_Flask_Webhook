@@ -8,6 +8,7 @@
 from flask import Flask, request
 from datetime import datetime
 import json
+import os
 app = Flask(__name__)
 
 
@@ -18,7 +19,7 @@ def webhook():
         data = request.get_json(force=True)
 
         if request.content_length < 500:
-            logfile = open("webhook.log", 'a')
+            logfile = open(os.path.dirname(__file__)+"/webhook.log", 'a')
             logfile.write("Timestamp: "+str(datetime.now()) + "\n")
             logfile.write("Remote Address: "+str(request.remote_addr) + "\n")
             logfile.write(str(request.headers)+json.dumps(data, indent=1)+"\n")
